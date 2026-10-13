@@ -25,12 +25,12 @@ FILMS["brand-film"] = dict(
         (0.62, 1.60, "Blink."),
         (2.05, 4.10, "That's all the time you get."),       # the screen finishes the thought: "...to be noticed."
         (4.15, 8.40, "Great product. Nobody knows. Five agencies... zero clarity."),  # one line rides the montage
-        (10.85, 11.95, "Sound familiar?"),
+        (10.72, 11.95, "Sound familiar?"),
         (13.65, 16.20, "One team. Design. Tech. Growth."),  # starts on the drop, tails into the first spark
         (16.25, 17.45, "People look twice."),
         (17.60, 19.25, "It works while you sleep."),
         (19.30, 20.55, "The phone rings."),
-        (20.65, 22.30, "Three sparks. One shape."),
+        (20.65, 22.55, "Three sparks. One shape."),  # lands just before the logo snap (22.6)
         # 22.3-26 s: logo reveal, left silent so it can breathe
         (26.20, 29.90, "Same shop. Now... impossible to ignore."),
         (30.15, 33.90, "Twenty-plus brands. Four countries. Sixteen services, one team."),

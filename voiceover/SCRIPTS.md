@@ -11,12 +11,12 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 00 | 0.62s | 1.60s | Blink. |
 | 01 | 2.05s | 4.10s | That's all the time you get. |
 | 02 | 4.15s | 8.40s | Great product. Nobody knows. Five agencies... zero clarity. |
-| 03 | 10.85s | 11.95s | Sound familiar? |
+| 03 | 10.72s | 11.95s | Sound familiar? |
 | 04 | 13.65s | 16.20s | One team. Design. Tech. Growth. |
 | 05 | 16.25s | 17.45s | People look twice. |
 | 06 | 17.60s | 19.25s | It works while you sleep. |
 | 07 | 19.30s | 20.55s | The phone rings. |
-| 08 | 20.65s | 22.30s | Three sparks. One shape. |
+| 08 | 20.65s | 22.55s | Three sparks. One shape. |
 | 09 | 26.20s | 29.90s | Same shop. Now... impossible to ignore. |
 | 10 | 30.15s | 33.90s | Twenty-plus brands. Four countries. Sixteen services, one team. |
 | 11 | 34.40s | 36.95s | Now... imagine the whole city. |
