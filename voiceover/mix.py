@@ -26,6 +26,7 @@ import numpy as np
 from scipy.io import wavfile
 from scipy.signal import butter, fftconvolve, sosfilt
 
+from music import score
 from scripts import FILMS, ORDER, estimate
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -202,9 +203,10 @@ def mix_film(film, scratch=False):
     cfg = FILMS[film]
     proj = os.path.join(ROOT, cfg["project"])
     n = int(cfg["duration"] * SR)
-    music, sfx = load_stem(film, "music", n), load_stem(film, "sfx", n)
+    sfx = load_stem(film, "sfx", n)
+    music, music_info = score(film, n, ref=load_stem(film, "music", n))
     vo = np.zeros(n, np.float32)
-    report, subs = [], []
+    report, subs = [music_info], []
     with tempfile.TemporaryDirectory() as tmp:
         for i, (start, end, text) in enumerate(cfg["lines"]):
             take = find_take(film, i)
