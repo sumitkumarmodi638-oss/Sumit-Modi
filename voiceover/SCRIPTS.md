@@ -47,8 +47,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.20s | 3.60s | Your next patient is googling 'doctor near me'. |
 | 01 | 3.65s | 7.25s | It's nine forty-seven at night. Calls missed. Messages unread. |
-| 02 | 7.50s | 9.45s | By morning, they've booked elsewhere. |
-| 03 | 9.60s | 10.95s | Let's switch it on. |
+| 02 | 7.42s | 9.62s | By morning, they've booked elsewhere. |
+| 03 | 9.70s | 10.95s | Let's switch it on. |
 | 04 | 11.25s | 14.85s | We put your clinic first on Google. |
 | 05 | 15.25s | 18.85s | Patients book in three taps. |
 | 06 | 19.25s | 22.85s | And reminders send themselves. |
@@ -62,8 +62,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.20s | 3.60s | People eat with their eyes first. |
 | 01 | 3.65s | 7.25s | Seven thirty on a Friday. Three likes. Zero reservations. |
-| 02 | 7.50s | 9.45s | Great food. Empty tables. |
-| 03 | 9.60s | 10.95s | Let's switch it on. |
+| 02 | 7.42s | 9.62s | Great food. Empty tables. |
+| 03 | 9.70s | 10.95s | Let's switch it on. |
 | 04 | 11.25s | 14.85s | Posts that make people hungry. |
 | 05 | 15.25s | 18.85s | A name and a menu they crave. |
 | 06 | 19.25s | 22.85s | And orders, straight to your kitchen. |
@@ -77,8 +77,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.20s | 3.60s | Buyers decide in one scroll. |
 | 01 | 3.65s | 7.25s | Ten p.m. Fourteen leads. Not one called back. |
-| 02 | 7.50s | 9.45s | Hot leads. Cold by Monday. |
-| 03 | 9.60s | 10.95s | Let's switch it on. |
+| 02 | 7.42s | 9.62s | Hot leads. Cold by Monday. |
+| 03 | 9.70s | 10.95s | Let's switch it on. |
 | 04 | 11.25s | 14.85s | A launch page that books site visits. |
 | 05 | 15.25s | 18.85s | Every lead, tracked in one place. |
 | 06 | 19.25s | 22.85s | And brochures sent in thirty seconds. |
@@ -92,8 +92,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.20s | 3.60s | Admissions season starts before you're ready. |
 | 01 | 3.65s | 7.25s | Nine p.m. The same question about fees. Again. |
-| 02 | 7.50s | 9.45s | Every. Single. Night. |
-| 03 | 9.60s | 10.95s | Let's switch it on. |
+| 02 | 7.42s | 9.62s | Every. Single. Night. |
+| 03 | 9.70s | 10.95s | Let's switch it on. |
 | 04 | 11.25s | 14.85s | Parents get answers while you teach. |
 | 05 | 15.25s | 18.85s | You're the first name they find. |
 | 06 | 19.25s | 22.85s | And admissions stay open, twenty-four seven. |
@@ -107,8 +107,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.20s | 3.60s | January joins. February... vanishes. |
 | 01 | 3.65s | 7.25s | Six a.m. class. Two out of twenty booked. |
-| 02 | 7.50s | 9.45s | Members join. Then drift away. |
-| 03 | 9.60s | 10.95s | Let's switch it on. |
+| 02 | 7.42s | 9.62s | Members join. Then drift away. |
+| 03 | 9.70s | 10.95s | Let's switch it on. |
 | 04 | 11.25s | 14.85s | Classes that fill themselves. |
 | 05 | 15.25s | 18.85s | A feed people train along to. |
 | 06 | 19.25s | 22.85s | And members who keep coming back. |
@@ -122,8 +122,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.20s | 3.60s | Your shop closes at nine. Your store shouldn't. |
 | 01 | 3.65s | 7.25s | Eleven twenty. 'Do you have this in medium?' No reply. |
-| 02 | 7.50s | 9.45s | Ready to buy. Nobody replied. |
-| 03 | 9.60s | 10.95s | Let's switch it on. |
+| 02 | 7.42s | 9.62s | Ready to buy. Nobody replied. |
+| 03 | 9.70s | 10.95s | Let's switch it on. |
 | 04 | 11.25s | 14.85s | A store that never closes. |
 | 05 | 15.25s | 18.85s | Instant answers, right in the DMs. |
 | 06 | 19.25s | 22.85s | And sales while the shutters are down. |
@@ -137,8 +137,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.20s | 3.60s | Guests book the photo. Not the room. |
 | 01 | 3.65s | 7.25s | Your listing just slipped to page three. |
-| 02 | 7.50s | 9.45s | Beautiful place. Invisible online. |
-| 03 | 9.60s | 10.95s | Let's switch it on. |
+| 02 | 7.42s | 9.62s | Beautiful place. Invisible online. |
+| 03 | 9.70s | 10.95s | Let's switch it on. |
 | 04 | 11.25s | 14.85s | A stay people remember. |
 | 05 | 15.25s | 18.85s | Direct bookings, without the commission. |
 | 06 | 19.25s | 22.85s | And reels that sell the view. |
@@ -152,8 +152,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.20s | 3.60s | Trust... is designed. |
 | 01 | 3.65s | 7.25s | One a.m. Demo day's close. Site's down again. |
-| 02 | 7.50s | 9.45s | Great product. Looks risky. |
-| 03 | 9.60s | 10.95s | Let's switch it on. |
+| 02 | 7.42s | 9.62s | Great product. Looks risky. |
+| 03 | 9.70s | 10.95s | Let's switch it on. |
 | 04 | 11.25s | 14.85s | Look like the company you're becoming. |
 | 05 | 15.25s | 18.85s | An app people actually trust. |
 | 06 | 19.25s | 22.85s | Then the numbers follow. |
@@ -167,8 +167,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.20s | 3.60s | Your catalogue is a forty-page PDF. |
 | 01 | 3.65s | 7.25s | A buyer in Dubai. Still waiting on a quote. |
-| 02 | 7.50s | 9.45s | Big buyers. Slow replies. |
-| 03 | 9.60s | 10.95s | Let's switch it on. |
+| 02 | 7.42s | 9.62s | Big buyers. Slow replies. |
+| 03 | 9.70s | 10.95s | Let's switch it on. |
 | 04 | 11.25s | 14.85s | A catalogue that answers itself. |
 | 05 | 15.25s | 18.85s | Every RFQ, tracked. |
 | 06 | 19.25s | 22.85s | And found by buyers worldwide. |

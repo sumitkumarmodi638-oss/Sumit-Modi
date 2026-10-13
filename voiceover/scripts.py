@@ -132,8 +132,8 @@ for key, v in INDUSTRY.items():
         lines=[
             (0.20, 3.60, v["hook"]),              # over the icon + hook text
             (3.65, 7.25, v["night"]),             # as the notifications pile up
-            (7.50, 9.45, v["problem"]),           # lands on the slam line (7.4 s)
-            (9.60, 10.95, "Let's switch it on."),  # toggle flips, then the drop at 11.0
+            (7.42, 9.62, v["problem"]),           # lands on the slam line (7.4 s)
+            (9.70, 10.95, "Let's switch it on."),  # rides into the toggle flip (10.05), drop at 11.0
             (11.25, 14.85, v["fixes"][0]),
             (15.25, 18.85, v["fixes"][1]),
             (19.25, 22.85, v["fixes"][2]),
