@@ -6,8 +6,8 @@ Each line is (start, latest_end, text):
   latest_end  the line must be finished by here (next important beat); mix.py
               time-fits a take that runs long, up to 12% faster, never more
 
-Voice: Sumit's cloned voice (Higgsfield "sumit's-voice"), a confident, warm,
-conversational read. The founder talking to a business owner, not an announcer.
+Voice: "Gia" (ElevenLabs preset, chosen by Sumit), a confident, warm Indian English
+read. The founder talking to a business owner, not an announcer.
 Rules followed: short lines, one idea per line, the voice never fights on-screen
 text (it says it the way you'd say it out loud), the logo moments are left silent
 so they breathe, and every film ends on the same spoken sign-off.
@@ -26,17 +26,17 @@ FILMS["brand-film"] = dict(
         (2.05, 4.10, "That's all the time you get."),       # the screen finishes the thought: "...to be noticed."
         (4.15, 8.40, "Great product. Nobody knows. Five agencies... zero clarity."),  # one line rides the montage
         (10.72, 11.95, "Sound familiar?"),
-        (13.65, 16.20, "One team. Design. Tech. Growth."),  # starts on the drop, tails into the first spark
-        (16.25, 17.45, "People look twice."),
+        (13.55, 16.30, "One team. Design. Tech. Growth."),  # starts on the drop, tails into the first spark
+        (16.35, 17.55, "People look twice."),
         (17.60, 19.25, "It works while you sleep."),
         (19.30, 20.55, "The phone rings."),
         (20.65, 22.55, "Three sparks. One shape."),  # lands just before the logo snap (22.6)
         # 22.3-26 s: logo reveal, left silent so it can breathe
-        (26.20, 29.90, "Same shop. Now... impossible to ignore."),
-        (30.15, 33.90, "Twenty-plus brands. Four countries. Sixteen services, one team."),
-        (34.40, 36.95, "Now... imagine the whole city."),
+        (26.20, 29.35, "Same shop. Now... impossible to ignore."),
+        (29.40, 34.35, "Twenty-plus brands. Four countries. Sixteen services, one team."),
+        (34.45, 37.05, "Now... imagine the whole city."),
         (37.15, 40.60, "Your turn. " + AUDIT),
-        (41.40, 44.20, SIGN_OFF),
+        (41.40, 44.60, SIGN_OFF),
     ])
 
 # ------------------------------------------------------------------ The Scroll Stopper (41 s, 9:16)

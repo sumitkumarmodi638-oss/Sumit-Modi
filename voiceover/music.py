@@ -30,9 +30,9 @@ TRACKS = {
     543: ("A New Life", "Eugenio Mininni", 129.2, 24.65, 75.9, 87.9),
     544: ("Kids on the Beach", "Eugenio Mininni", 123.0, 72.3, 108.2, 119.0),
     546: ("The Farewell", "Eugenio Mininni", 129.2, 18.8, 88.0, 93.7),
-    607: ("Forest Walk", "Alejandro Magaña", 117.5, 16.5, 147.1, 164.2),
-    715: ("Classical 8", "Mixkit", 80.7, 72.4, 122.8, 134.6),
-    723: ("Other World", "Alejandro Magaña", 143.6, 9.2, 91.2, 92.6),
+    607: ("Forest Walk", "Eugenio Mininni", 117.5, 16.5, 147.1, 164.2),
+    715: ("Classical 8", "Jonny S.", 80.7, 72.4, 122.8, 134.6),
+    723: ("Other World", "Lily J", 143.6, 9.2, 91.2, 92.6),
 }
 
 # film: (track id, drop time in the film s)
