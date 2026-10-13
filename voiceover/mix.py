@@ -38,8 +38,6 @@ NAMES = {"brand-film": "varnik-labs-brand-film", "scroll-stopper": "varnik-labs-
 
 VO_CHAIN = ",".join([
     "aresample=48000", "aformat=sample_fmts=flt:channel_layouts=mono",
-    "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.03",
-    "areverse", "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.08", "areverse",
     "highpass=f=85", "lowpass=f=15000",
     "equalizer=f=200:t=q:w=1:g=-2.5", "equalizer=f=3200:t=q:w=1.2:g=2.5", "equalizer=f=10000:t=q:w=1:g=1.5",
     "deesser=i=0.4:m=0.5:f=0.5",
@@ -85,6 +83,55 @@ def scratch_take(text, path):
     x = n * syl * np.clip(t / 0.03, 0, 1) * np.clip((d - t) / 0.05, 0, 1)
     wavfile.write(path, SR, (x / np.max(np.abs(x)) * 0.5).astype(np.float32))
     return path
+
+
+def dialogue_edit(x, max_gap=0.22, floor_db=-32):
+    """Edit a take the way a dialogue editor would:
+    - trim to the first/last real syllable (ignores room tone and stray clicks under 60 ms),
+    - tighten any pause longer than `max_gap` down to `max_gap` (short crossfades, no clicks).
+    """
+    f = int(0.02 * SR)
+    frames = len(x) // f
+    if frames < 3:
+        return x
+    rms = np.sqrt(np.mean(x[: frames * f].reshape(frames, f) ** 2, axis=1))
+    db = 20 * np.log10(rms + 1e-9)
+    voiced = db > db.max() + floor_db
+    runs, k = [], 0  # voiced runs, dropping blips shorter than 3 frames (60 ms)
+    while k < frames:
+        if voiced[k]:
+            j = k
+            while j < frames and voiced[j]:
+                j += 1
+            if j - k >= 3:
+                runs.append((k, j))
+            k = j
+        else:
+            k += 1
+    if not runs:
+        return x
+    head, tail, fade = int(0.04 * SR), int(0.12 * SR), int(0.008 * SR)
+    pieces, gap_keep = [], int(max_gap * SR)
+    for i, (a, b) in enumerate(runs):
+        s0 = a * f - (head if i == 0 else 0)
+        s1 = b * f + (tail if i == len(runs) - 1 else 0)
+        if i:  # the pause before this run: keep at most max_gap of it
+            prev_end = runs[i - 1][1] * f
+            gap = a * f - prev_end
+            keep = min(gap, gap_keep)
+            s0 = a * f - keep // 2
+            pieces[-1] = (pieces[-1][0], prev_end + (keep - keep // 2))
+        pieces.append((max(0, s0), min(len(x), s1)))
+    out = []
+    for s0, s1 in pieces:
+        seg = x[s0:s1].copy()
+        n = min(fade, len(seg) // 2)
+        if n:
+            ramp = np.linspace(0, 1, n, dtype=np.float32)
+            seg[:n] *= ramp
+            seg[-n:] *= ramp[::-1]
+        out.append(seg)
+    return np.concatenate(out)
 
 
 def rms_db(x):
@@ -164,13 +211,14 @@ def mix_film(film, scratch=False):
                 if not scratch:
                     raise FileNotFoundError(f"{film}: missing take {i:02d} ({text!r})")
                 take = scratch_take(text, os.path.join(tmp, f"s{i}.wav"))
-            x = ffmpeg_audio(take, VO_CHAIN, os.path.join(tmp, f"v{i}.wav"))
+            x = dialogue_edit(ffmpeg_audio(take, VO_CHAIN, os.path.join(tmp, f"v{i}.wav")))
             dur, slot = len(x) / SR, end - start
             speed = 1.0
             if dur > slot:
                 speed = min(dur / slot, MAX_SPEEDUP)
-                x = ffmpeg_audio(take, VO_CHAIN + f",rubberband=tempo={speed:.4f}:pitchq=quality",
-                                 os.path.join(tmp, f"f{i}.wav"))
+                ed = os.path.join(tmp, f"e{i}.wav")
+                wavfile.write(ed, SR, x.astype(np.float32))
+                x = ffmpeg_audio(ed, f"rubberband=tempo={speed:.4f}:pitchq=quality", os.path.join(tmp, f"f{i}.wav"))
             x = x * 10 ** ((-17.0 - rms_db(x)) / 20)  # every line at the same level
             s = int(start * SR)
             seg = x[: max(0, n - s)]
