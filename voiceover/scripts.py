@@ -138,8 +138,8 @@ for key, v in INDUSTRY.items():
             (15.25, 18.85, v["fixes"][1]),
             (19.25, 22.85, v["fixes"][2]),
             (23.20, 26.35, v["result"]),
-            (26.75, 30.60, v["cta"]),
-            (31.30, 33.60, SIGN_OFF),
+            (26.75, 30.85, v["cta"]),
+            (30.95, 33.80, SIGN_OFF),  # on the end-card hit (31.0)
         ])
 
 

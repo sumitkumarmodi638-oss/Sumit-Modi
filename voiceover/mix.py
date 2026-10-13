@@ -214,8 +214,12 @@ def mix_film(film, scratch=False):
                 if not scratch:
                     raise FileNotFoundError(f"{film}: missing take {i:02d} ({text!r})")
                 take = scratch_take(text, os.path.join(tmp, f"s{i}.wav"))
-            x = dialogue_edit(ffmpeg_audio(take, VO_CHAIN, os.path.join(tmp, f"v{i}.wav")))
+            raw = ffmpeg_audio(take, VO_CHAIN, os.path.join(tmp, f"v{i}.wav"))
+            x = dialogue_edit(raw)
             dur, slot = len(x) / SR, end - start
+            if dur > slot * MAX_SPEEDUP:  # too long even sped up: tighten the pauses first
+                x = dialogue_edit(raw, max_gap=0.12)
+                dur = len(x) / SR
             speed = 1.0
             if dur > slot:
                 speed = min(dur / slot, MAX_SPEEDUP)
