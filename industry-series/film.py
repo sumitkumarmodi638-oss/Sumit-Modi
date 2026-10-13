@@ -21,12 +21,16 @@ from lib import FPS, H, W  # noqa: E402
 from stories import STORIES  # noqa: E402
 
 BUILD = os.path.join(os.path.dirname(os.path.abspath(__file__)), "build")
-DURATION = 32.0
+DURATION = 34.0
 BEAT = 0.5
-SCENES = [(0.0, 3.0, "hook"), (3.0, 8.0, "problem"), (8.0, 9.5, "switch"), (9.5, 13.5, "fix0"),
-          (13.5, 17.5, "fix1"), (17.5, 21.5, "fix2"), (21.5, 25.0, "result"), (25.0, 29.0, "cta"),
-          (29.0, 32.0, "endcard")]
-DROP = 9.5
+# Cut to the voiceover (see ../voiceover/scripts.py): the night scene and the switch get
+# room for the read, and every boundary stays on the 120 BPM beat grid.
+SCENES = [(0.0, 3.5, "hook"), (3.5, 9.5, "problem"), (9.5, 11.0, "switch"), (11.0, 15.0, "fix0"),
+          (15.0, 19.0, "fix1"), (19.0, 23.0, "fix2"), (23.0, 26.5, "result"), (26.5, 31.0, "cta"),
+          (31.0, 34.0, "endcard")]
+T = {name: s for s, _e, name in SCENES}  # scene start times
+DROP = T["fix0"]
+SLAM = 3.9  # problem scene: when the problem line slams in (local time)
 CARDBG = (30, 26, 48)
 CREAM = (245, 230, 200)
 EDGE = (64, 56, 100)
@@ -577,7 +581,7 @@ def sc_hook(t, lt, st):
 
 
 def note_times(st):
-    return [0.3 + k * 0.55 for k in range(len(st["notes"]))]
+    return [0.3 + k * 0.6 for k in range(len(st["notes"]))]
 
 
 def sc_problem(t, lt, st):
@@ -603,19 +607,19 @@ def sc_problem(t, lt, st):
         blit(c, text_rgba(title, "DMSans-700", 28, WHITE)[0], 110, 24)
         blit(c, text_rgba(body, "DMSans-500", 32, CLOUD)[0], 110, 70)
         blit(c, text_rgba("now", "DMSans-500", 24, GREY)[0], 840, 26)
-        blit_c(f, c, W / 2, y + 75, 0.9 + 0.1 * q, min(1, q * 3) * (1 - 0.5 * prog(lt, 3.4, 0.4)))
-    badge_q = ease_out_back(prog(lt, 3.0, 0.3))
+        blit_c(f, c, W / 2, y + 75, 0.9 + 0.1 * q, min(1, q * 3) * (1 - 0.5 * prog(lt, SLAM, 0.4)))
+    badge_q = ease_out_back(prog(lt, SLAM - 0.5, 0.3))
     if badge_q > 0:
         n = len(st["notes"])
         blit_c(f, rrect(300, 70, 35, (235, 90, 100)), W / 2, 465, badge_q)
         label(f, f"{n} unanswered", W / 2, 445, 30, WHITE, "DMSans-700", min(1, badge_q), align="center")
-    sl = lt - 3.4
+    sl = lt - SLAM
     if sl >= 0:
         g = prog(sl, 0, 0.4)
         lum = f @ np.float32([0.299, 0.587, 0.114])
         f = f * (1 - 0.7 * g) + lum[..., None] * 0.7 * g * 0.6
         card(f, 0, 1330, W, 400, 0, (12, 10, 20), 0.85 * g)
-        FText(st["problem"], "Sora-800", 84, align="center").draw(f, W / 2, 1400, lt, 3.4, 0.08, 0.22, "slam")
+        FText(st["problem"], "Sora-800", 84, align="center").draw(f, W / 2, 1400, lt, SLAM, 0.08, 0.22, "slam")
         f = shake(f, 20 * (1 - prog(sl, 0, 0.3)), t, 5)
     return zoom(f, 1 + 0.02 * lt, W / 2, H / 2)
 
@@ -721,19 +725,21 @@ def cues_for(st):
     c = [(0.0, "hit", 0.8)] + [(0.05 + i * 0.1, "pop", 0.5) for i in range(len(ICONS[st["icon"]]))]
     words = sum(len(line.split()) for line in st["hook"])
     c += [(0.6 + k * 0.12, "pop", 0.35) for k in range(words)]
-    c += [(3.0, "whoosh", 0.5)]
+    P, SW = T["problem"], T["switch"]
+    c += [(P, "whoosh", 0.5)]
     for k, t0 in enumerate(note_times(st)):
-        c.append((3.0 + t0, "buzz" if "call" in st["notes"][k][0].lower() else "ping", 0.6))
-    c += [(6.0, "pop", 0.5), (6.4, "hit", 0.9), (8.0, "whoosh", 0.4), (8.55, "toggle", 1.0), (8.6, "glow_swell", 0.7),
-          (9.5, "riser@1.3", 0.7), (9.5, "revcrash@0.5", 0.6), (9.5, "drop", 1.0)]
+        c.append((P + t0, "buzz" if "call" in st["notes"][k][0].lower() else "ping", 0.6))
+    c += [(P + SLAM - 0.5, "pop", 0.5), (P + SLAM, "hit", 0.9), (SW, "whoosh", 0.4), (SW + 0.55, "toggle", 1.0),
+          (SW + 0.6, "glow_swell", 0.7), (DROP, "riser@1.3", 0.7), (DROP, "revcrash@0.5", 0.6), (DROP, "drop", 1.0)]
     for i, (s, _e, _n) in enumerate(SCENES[3:6]):
         sp = st["fixes"][i]
         if i:
             c.append((s, "whip", 0.7))
         c += [(s + rt, k, g) for rt, k, g in WIDGETS[sp["kind"]][1](sp)]
-    c += [(21.5, "hit", 0.9)] + [(22.3 + k * 0.3, "ding", 0.55) for k in range(3)]
-    c += [(25.0, "impact", 0.9), (25.6, "pop", 0.5), (26.4, "pop", 0.6), (26.7, "tap", 0.9), (26.9, "notify", 0.6)]
-    c += [(29.0, "final_hit", 1.0), (29.1, "sparkle", 0.6), (30.0, "shimmer", 0.6)]
+    R, CT, E = T["result"], T["cta"], T["endcard"]
+    c += [(R, "hit", 0.9)] + [(R + 0.8 + k * 0.3, "ding", 0.55) for k in range(3)]
+    c += [(CT, "impact", 0.9), (CT + 0.6, "pop", 0.5), (CT + 1.4, "pop", 0.6), (CT + 1.7, "tap", 0.9), (CT + 1.9, "notify", 0.6)]
+    c += [(E, "final_hit", 1.0), (E + 0.1, "sparkle", 0.6), (E + 1.0, "shimmer", 0.6)]
     return c
 
 

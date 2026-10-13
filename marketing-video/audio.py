@@ -426,11 +426,21 @@ for b in beats(8.5, 10.5):
     duck[i:i + len(k)] = np.minimum(duck[i:i + len(k)], k[: N - i])
 
 mus = music.x * duck[:, None]
-mix = mus * 0.9 + drums.x * 0.8 + sfx.x * 0.85 + reverb(verb_send.x + mus * 0.15) * 0.5
+verb_stem = reverb(verb_send.x + mus * 0.15) * 0.5
+music_stem = mus * 0.9 + drums.x * 0.8 + verb_stem
+sfx_stem = sfx.x * 0.85
+mix = music_stem + sfx_stem
 mix = hp(mix.T, 25).T
+STEM = "brand-film"
 
 # Gentle bus glue + soft limiter, then normalise to -1 dBFS peak
-mix /= np.percentile(np.abs(mix), 99.9) + 1e-9
+_g = 1 / (np.percentile(np.abs(mix), 99.9) + 1e-9)
+mix *= _g
+# separate stems for the voiceover mix (voiceover/mix.py ducks music under the voice, not the SFX)
+from scipy.io import wavfile as _wf
+os.makedirs(os.path.join(HERE, "build"), exist_ok=True)
+_wf.write(os.path.join(os.path.join(HERE, "build"), STEM + "_music.wav"), SR, (hp(music_stem.T, 25).T * _g).astype(np.float32))
+_wf.write(os.path.join(os.path.join(HERE, "build"), STEM + "_sfx.wav"), SR, (hp(sfx_stem.T, 25).T * _g).astype(np.float32))
 mix = np.tanh(mix * 1.15) / np.tanh(1.15)
 fade = np.ones(N)
 fade[-int(0.6 * SR):] = np.linspace(1, 0, int(0.6 * SR)) ** 2

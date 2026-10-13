@@ -14,7 +14,7 @@ from scipy.signal import butter, fftconvolve, sosfilt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from film import DROP, DURATION, cues_for  # noqa: E402
+from film import DROP, DURATION, T, cues_for  # noqa: E402
 from stories import ORDER, STORIES  # noqa: E402
 
 SR = 48000
@@ -296,19 +296,21 @@ def build(key):
     prog = PROGS["pop" if idx % 3 != 1 else "anthem"]
     music, drums, sfx, verb = Bus(), Bus(), Bus(), Bus()
 
-    # 0-3 hook: soft pad + pulse; 3-8 night: minor drone + clock; 8-9.5 hush
-    music.add(pad([tonic - 12 + n for n in triad(9, "m")], 3.0, 1800, 0.3), 0.0, 1.1)
-    for b in beats(0.0, 3.0, 0.5):
+    # hook: soft pad + pulse; night: minor drone + clock; switch: hush
+    H0, P, SW = T["problem"], T["problem"], T["switch"]
+    music.add(pad([tonic - 12 + n for n in triad(9, "m")], H0, 1800, 0.3), 0.0, 1.1)
+    for b in beats(0.0, H0, 0.5):
         drums.add(kick(), b, 0.85 if (b * 2) % 2 == 0 else 0.5)
-    drone = pad([tonic - 15, tonic - 12, tonic - 8], 5.2, 700, 1.0) + osc(mtof(tonic - 27), 5.2) * 0.3 * env(5.2, 1, 1, 1, 0.4)
-    music.add(drone, 3.0, 0.5)
-    for b in beats(3.0, 8.0):
+    dn = SW - P + 0.2
+    drone = pad([tonic - 15, tonic - 12, tonic - 8], dn, 700, 1.0) + osc(mtof(tonic - 27), dn) * 0.3 * env(dn, 1, 1, 1, 0.4)
+    music.add(drone, P, 0.5)
+    for b in beats(P, SW):
         drums.add(osc(2400, 0.03, phase=0) * np.exp(-tvec(0.03) / 0.005), b, 0.18)  # clock
-    for b in beats(5.0, 8.0, 0.25):
+    for b in beats(P + 2.0, SW, 0.25):
         music.add(bass_pluck(tonic - 27, 0.2), b, 0.25)
 
-    # 9.5-29: the drop
-    end = 29.0
+    # the drop, until the end card
+    end = T["endcard"]
     for bar_i, bar in enumerate(beats(DROP, end, 2.0)):
         step, q = prog[bar_i % 4]
         nstep, _ = prog[(bar_i + 1) % 4]
@@ -378,9 +380,19 @@ def build(key):
             out[:, ch] = fftconvolve(x[:, ch], ir / np.sqrt(np.sum(ir ** 2)))[:len(x)]
         return out
 
-    mix = mus * 0.85 + drums.x * 0.8 + sfx.x * 0.9 + reverb(verb.x + high * 0.1) * 0.45
+    verb_stem = reverb(verb.x + high * 0.1) * 0.45
+    music_stem = mus * 0.85 + drums.x * 0.8 + verb_stem
+    sfx_stem = sfx.x * 0.9
+    mix = music_stem + sfx_stem
     mix = hp(mix, 28)
-    mix /= np.percentile(np.abs(mix), 99.9) + 1e-9
+    STEM = key
+    _g = 1 / (np.percentile(np.abs(mix), 99.9) + 1e-9)
+    mix *= _g
+    # separate stems for the voiceover mix (voiceover/mix.py ducks music under the voice, not the SFX)
+    from scipy.io import wavfile as _wf
+    os.makedirs(os.path.join(HERE, "build"), exist_ok=True)
+    _wf.write(os.path.join(os.path.join(HERE, "build"), STEM + "_music.wav"), SR, (hp(music_stem, 28) * _g).astype(np.float32))
+    _wf.write(os.path.join(os.path.join(HERE, "build"), STEM + "_sfx.wav"), SR, (hp(sfx_stem, 28) * _g).astype(np.float32))
     mix = np.tanh(mix * 1.15) / np.tanh(1.15)
     fade = np.ones(N)
     fade[-int(0.8 * SR):] = np.linspace(1, 0, int(0.8 * SR)) ** 2

@@ -401,9 +401,19 @@ mus = music.x.copy()
 low = lp(mus, 150)
 high = mus - low
 mus = low + high * duck[:, None]
-mix = mus * 0.85 + drums.x * 0.8 + sfx.x * 0.9 + reverb(verb.x + high * 0.1) * 0.45
+verb_stem = reverb(verb.x + high * 0.1) * 0.45
+music_stem = mus * 0.85 + drums.x * 0.8 + verb_stem
+sfx_stem = sfx.x * 0.9
+mix = music_stem + sfx_stem
 mix = hp(mix, 28)
-mix /= np.percentile(np.abs(mix), 99.9) + 1e-9
+STEM = "scroll-stopper"
+_g = 1 / (np.percentile(np.abs(mix), 99.9) + 1e-9)
+mix *= _g
+# separate stems for the voiceover mix (voiceover/mix.py ducks music under the voice, not the SFX)
+from scipy.io import wavfile as _wf
+os.makedirs(os.path.join(HERE, "build"), exist_ok=True)
+_wf.write(os.path.join(os.path.join(HERE, "build"), STEM + "_music.wav"), SR, (hp(music_stem, 28) * _g).astype(np.float32))
+_wf.write(os.path.join(os.path.join(HERE, "build"), STEM + "_sfx.wav"), SR, (hp(sfx_stem, 28) * _g).astype(np.float32))
 mix = np.tanh(mix * 1.15) / np.tanh(1.15)
 fade = np.ones(N)
 fade[-int(0.8 * SR):] = np.linspace(1, 0, int(0.8 * SR)) ** 2
