@@ -13,6 +13,9 @@ from scripts import FILMS, ORDER
 
 VOICE_ID = "f23263ce-3220-4c99-a488-8b6a8aab2a66"  # "sumit's-voice" (cloned, Higgsfield element)
 MODEL = "seed_audio"
+SPEECH_RATE = 35       # the cloned voice reads slowly at 0; +35 gives a brisk, natural ad read
+SAMPLE_RATE = 48000    # match the mix (the default is 24 kHz)
+RATE_OVERRIDE = {}     # per-line speech_rate for a retake, e.g. {8: 55}
 
 
 def all_lines():
@@ -29,7 +32,8 @@ def all_requests():
         if text not in seen:
             seen.add(text)
             out.append({"index": index,
-                        "params": {"model": MODEL, "prompt": text, "voice_type": "element", "voice_id": VOICE_ID}})
+                        "params": {"model": MODEL, "prompt": text, "voice_type": "element", "voice_id": VOICE_ID,
+                                   "speech_rate": RATE_OVERRIDE.get(index, SPEECH_RATE), "sample_rate": SAMPLE_RATE}})
     return out
 
 

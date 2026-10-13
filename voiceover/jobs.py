@@ -2,6 +2,7 @@
 
   python3 jobs.py add 3=<job_id> 4=<job_id> ...   record submitted jobs
   python3 jobs.py url 7=<result_url> ...          record finished results
+  python3 jobs.py ingest < result.json             record a batch/wait result (job ids + urls)
   python3 jobs.py next 5                          next pending requests as JSON
   python3 jobs.py status                          summary
   python3 jobs.py download                        fetch finished results into takes/ (needs network access)
@@ -33,6 +34,17 @@ if __name__ == "__main__":
             k, v = a.split("=", 1)
             j.setdefault(k, {})["job_id" if cmd == "add" else "url"] = v
         save(j)
+    elif cmd == "ingest":  # paste a generate_audio_batch / jobs_wait JSON result on stdin
+        data = json.load(sys.stdin)
+        for job in data.get("jobs", []):
+            if job.get("job_id"):
+                rec = j.setdefault(str(job["index"]), {})
+                rec["job_id"] = job["job_id"]
+                if job.get("result_url"):
+                    rec["url"] = job["result_url"]
+        save(j)
+        pending = [{"index": int(k), "job_id": v["job_id"]} for k, v in j.items() if "url" not in v]
+        print("pending:", json.dumps(pending))
     elif cmd == "next":
         todo = [r for r in all_requests() if str(r["index"]) not in j]
         print(json.dumps(todo[: int(args[0]) if args else 5]))
