@@ -11,6 +11,6 @@ python3 video.py
 
 mkdir -p output
 ffmpeg -y -loglevel error -i build/picture.mp4 -i build/soundtrack.wav \
-  -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest -movflags +faststart \
+  -map 0:v -map 1:a -c:v libx264 -preset slow -crf 25 -tune grain -pix_fmt yuv420p -c:a aac -b:a 256k -shortest -movflags +faststart \
   output/varnik-labs-brand-film.mp4
 echo "done: output/varnik-labs-brand-film.mp4"
