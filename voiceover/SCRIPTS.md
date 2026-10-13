@@ -1,6 +1,6 @@
 # Voiceover scripts: all 11 films
 
-Voice: **Sumit's cloned voice** (Higgsfield `sumit's-voice`), a confident, warm, conversational read. The founder talking to a business owner, not an announcer.
+Voice: **"Gia"** (ElevenLabs preset, chosen by Sumit), a confident, warm Indian English read. A trusted advisor talking to a business owner, not an announcer.
 
 Each line starts a few frames after its cut, so the picture lands first and the voice rides on it. Fast montages get one line across several cuts, and words already on screen aren't repeated. Logo reveals stay silent. Timing is `start → must finish by`.
 
@@ -12,16 +12,16 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 01 | 2.05s | 4.10s | That's all the time you get. |
 | 02 | 4.15s | 8.40s | Great product. Nobody knows. Five agencies... zero clarity. |
 | 03 | 10.72s | 11.95s | Sound familiar? |
-| 04 | 13.65s | 16.20s | One team. Design. Tech. Growth. |
-| 05 | 16.25s | 17.45s | People look twice. |
+| 04 | 13.55s | 16.30s | One team. Design. Tech. Growth. |
+| 05 | 16.35s | 17.55s | People look twice. |
 | 06 | 17.60s | 19.25s | It works while you sleep. |
 | 07 | 19.30s | 20.55s | The phone rings. |
 | 08 | 20.65s | 22.55s | Three sparks. One shape. |
-| 09 | 26.20s | 29.90s | Same shop. Now... impossible to ignore. |
-| 10 | 30.15s | 33.90s | Twenty-plus brands. Four countries. Sixteen services, one team. |
-| 11 | 34.40s | 36.95s | Now... imagine the whole city. |
+| 09 | 26.20s | 29.35s | Same shop. Now... impossible to ignore. |
+| 10 | 29.40s | 34.35s | Twenty-plus brands. Four countries. Sixteen services, one team. |
+| 11 | 34.45s | 37.05s | Now... imagine the whole city. |
 | 12 | 37.15s | 40.60s | Your turn. Book a free fifteen-minute audit. |
-| 13 | 41.40s | 44.20s | Varnik Labs. Design. Tech. Growth. |
+| 13 | 41.40s | 44.60s | Varnik Labs. Design. Tech. Growth. |
 
 ## The Scroll Stopper (41 s, 9:16)
 
@@ -29,7 +29,7 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 |---|---|---|---|
 | 00 | 0.15s | 2.45s | Two seconds to stop a thumb. |
 | 01 | 3.05s | 4.45s | So does your business. |
-| 02 | 5.40s | 7.40s | Post after post after post. |
+| 02 | 4.95s | 7.40s | Post after post after post. |
 | 03 | 7.45s | 9.95s | All fighting for one thumb. |
 | 04 | 10.95s | 12.45s | That's what we build. |
 | 05 | 12.75s | 15.80s | A brand they remember. |
@@ -53,8 +53,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 05 | 15.25s | 18.85s | Patients book in three taps. |
 | 06 | 19.25s | 22.85s | And reminders send themselves. |
 | 07 | 23.20s | 26.35s | A fuller waiting room. A calmer front desk. |
-| 08 | 26.75s | 30.60s | Running a clinic? Book a free fifteen-minute audit. |
-| 09 | 31.30s | 33.60s | Varnik Labs. Design. Tech. Growth. |
+| 08 | 26.75s | 30.85s | Running a clinic? Book a free fifteen-minute audit. |
+| 09 | 30.95s | 33.80s | Varnik Labs. Design. Tech. Growth. |
 
 ## Food Reel (34 s, 9:16)
 
@@ -68,8 +68,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 05 | 15.25s | 18.85s | A name and a menu they crave. |
 | 06 | 19.25s | 22.85s | And orders, straight to your kitchen. |
 | 07 | 23.20s | 26.35s | Fuller tables. A busier kitchen. |
-| 08 | 26.75s | 30.60s | Running a restaurant? Book a free fifteen-minute audit. |
-| 09 | 31.30s | 33.60s | Varnik Labs. Design. Tech. Growth. |
+| 08 | 26.75s | 30.85s | Running a restaurant? Book a free fifteen-minute audit. |
+| 09 | 30.95s | 33.80s | Varnik Labs. Design. Tech. Growth. |
 
 ## Realestate Reel (34 s, 9:16)
 
@@ -83,8 +83,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 05 | 15.25s | 18.85s | Every lead, tracked in one place. |
 | 06 | 19.25s | 22.85s | And brochures sent in thirty seconds. |
 | 07 | 23.20s | 26.35s | Every lead, answered in minutes. |
-| 08 | 26.75s | 30.60s | Selling property? Book a free fifteen-minute audit. |
-| 09 | 31.30s | 33.60s | Varnik Labs. Design. Tech. Growth. |
+| 08 | 26.75s | 30.85s | Selling property? Book a free fifteen-minute audit. |
+| 09 | 30.95s | 33.80s | Varnik Labs. Design. Tech. Growth. |
 
 ## Education Reel (34 s, 9:16)
 
@@ -98,8 +98,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 05 | 15.25s | 18.85s | You're the first name they find. |
 | 06 | 19.25s | 22.85s | And admissions stay open, twenty-four seven. |
 | 07 | 23.20s | 26.35s | More enquiries. Fewer repeat calls. |
-| 08 | 26.75s | 30.60s | Running an institute? Book a free fifteen-minute audit. |
-| 09 | 31.30s | 33.60s | Varnik Labs. Design. Tech. Growth. |
+| 08 | 26.75s | 30.85s | Running an institute? Book a free fifteen-minute audit. |
+| 09 | 30.95s | 33.80s | Varnik Labs. Design. Tech. Growth. |
 
 ## Fitness Reel (34 s, 9:16)
 
@@ -113,8 +113,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 05 | 15.25s | 18.85s | A feed people train along to. |
 | 06 | 19.25s | 22.85s | And members who keep coming back. |
 | 07 | 23.20s | 26.35s | Members who stay. |
-| 08 | 26.75s | 30.60s | Running a gym? Book a free fifteen-minute audit. |
-| 09 | 31.30s | 33.60s | Varnik Labs. Design. Tech. Growth. |
+| 08 | 26.75s | 30.85s | Running a gym? Book a free fifteen-minute audit. |
+| 09 | 30.95s | 33.80s | Varnik Labs. Design. Tech. Growth. |
 
 ## Retail Reel (34 s, 9:16)
 
@@ -128,8 +128,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 05 | 15.25s | 18.85s | Instant answers, right in the DMs. |
 | 06 | 19.25s | 22.85s | And sales while the shutters are down. |
 | 07 | 23.20s | 26.35s | Selling... while you sleep. |
-| 08 | 26.75s | 30.60s | Running a store? Book a free fifteen-minute audit. |
-| 09 | 31.30s | 33.60s | Varnik Labs. Design. Tech. Growth. |
+| 08 | 26.75s | 30.85s | Running a store? Book a free fifteen-minute audit. |
+| 09 | 30.95s | 33.80s | Varnik Labs. Design. Tech. Growth. |
 
 ## Travel Reel (34 s, 9:16)
 
@@ -143,8 +143,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 05 | 15.25s | 18.85s | Direct bookings, without the commission. |
 | 06 | 19.25s | 22.85s | And reels that sell the view. |
 | 07 | 23.20s | 26.35s | More direct bookings. Fewer empty rooms. |
-| 08 | 26.75s | 30.60s | Running a stay? Book a free fifteen-minute audit. |
-| 09 | 31.30s | 33.60s | Varnik Labs. Design. Tech. Growth. |
+| 08 | 26.75s | 30.85s | Running a stay? Book a free fifteen-minute audit. |
+| 09 | 30.95s | 33.80s | Varnik Labs. Design. Tech. Growth. |
 
 ## Finance Reel (34 s, 9:16)
 
@@ -158,8 +158,8 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 05 | 15.25s | 18.85s | An app people actually trust. |
 | 06 | 19.25s | 22.85s | Then the numbers follow. |
 | 07 | 23.20s | 26.35s | Look ready. Be ready. |
-| 08 | 26.75s | 30.60s | Building a startup? Book a free fifteen-minute audit. |
-| 09 | 31.30s | 33.60s | Varnik Labs. Design. Tech. Growth. |
+| 08 | 26.75s | 30.85s | Building a startup? Book a free fifteen-minute audit. |
+| 09 | 30.95s | 33.80s | Varnik Labs. Design. Tech. Growth. |
 
 ## Industry Reel (34 s, 9:16)
 
@@ -173,5 +173,5 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 05 | 15.25s | 18.85s | Every RFQ, tracked. |
 | 06 | 19.25s | 22.85s | And found by buyers worldwide. |
 | 07 | 23.20s | 26.35s | Faster quotes. Bigger orders. |
-| 08 | 26.75s | 30.60s | Running a factory? Book a free fifteen-minute audit. |
-| 09 | 31.30s | 33.60s | Varnik Labs. Design. Tech. Growth. |
+| 08 | 26.75s | 30.85s | Running a factory? Book a free fifteen-minute audit. |
+| 09 | 30.95s | 33.80s | Varnik Labs. Design. Tech. Growth. |
