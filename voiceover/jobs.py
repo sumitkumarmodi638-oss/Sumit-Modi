@@ -51,18 +51,19 @@ if __name__ == "__main__":
     elif cmd == "status":
         reqs = all_requests()
         print(f"{len(reqs)} unique lines | submitted {len(j)} | finished {sum('url' in v for v in j.values())} | "
-              f"downloaded {sum(os.path.exists(os.path.join(HERE, take_path(int(k)) + '.wav')) for k in j)}")
+              f"downloaded {sum(any(os.path.exists(os.path.join(HERE, take_path(int(k)) + e)) for e in ('.wav', '.mp3')) for k in j)}")
     elif cmd == "download":
         import shutil
         for k, v in sorted(j.items(), key=lambda kv: int(kv[0])):
-            dst = os.path.join(HERE, take_path(int(k)) + ".wav")
+            ext = os.path.splitext(v.get("url", ".wav"))[1] or ".wav"
+            dst = os.path.join(HERE, take_path(int(k)) + ext)
             if "url" in v and not os.path.exists(dst):
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 r = subprocess.run(["curl", "-sS", "-f", "--max-time", "60", "-o", dst, v["url"]])
                 print(("ok  " if r.returncode == 0 else "FAIL") + f" {k} -> {dst}")
             if os.path.exists(dst):  # reuse the take wherever the same line is spoken
                 for p in paths_for(int(k)):
-                    q = os.path.join(HERE, p + ".wav")
+                    q = os.path.join(HERE, p + ext)
                     if not os.path.exists(q):
                         os.makedirs(os.path.dirname(q), exist_ok=True)
                         shutil.copy(dst, q)

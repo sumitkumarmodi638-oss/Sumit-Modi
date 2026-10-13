@@ -11,8 +11,10 @@ import sys
 
 from scripts import FILMS, ORDER
 
-VOICE_ID = "f23263ce-3220-4c99-a488-8b6a8aab2a66"  # "sumit's-voice" (cloned, Higgsfield element)
-MODEL = "seed_audio"
+VOICE_ID = "530df032-c311-483b-a750-cb3c9e1bcdfd"  # "Gia" (preset), chosen by Sumit; read by ElevenLabs
+VOICE_TYPE = "preset"
+VARIANT = "elevenlabs"
+MODEL = "text2speech_v2"
 SPEECH_RATE = 35       # the cloned voice reads slowly at 0; +35 gives a brisk, natural ad read
 SAMPLE_RATE = 48000    # match the mix (the default is 24 kHz)
 RATE_OVERRIDE = {}     # per-line speech_rate for a retake, e.g. {8: 55}
@@ -33,8 +35,8 @@ def all_requests():
         if text not in seen:
             seen.add(text)
             out.append({"index": index,
-                        "params": {"model": MODEL, "prompt": SAY_AS.get(text, text), "voice_type": "element", "voice_id": VOICE_ID,
-                                   "speech_rate": RATE_OVERRIDE.get(index, SPEECH_RATE), "sample_rate": SAMPLE_RATE}})
+                        "params": {"model": MODEL, "variant": VARIANT, "prompt": SAY_AS.get(text, text),
+                                   "voice_type": VOICE_TYPE, "voice_id": VOICE_ID}})
     return out
 
 
