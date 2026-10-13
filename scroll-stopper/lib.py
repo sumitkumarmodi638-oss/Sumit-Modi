@@ -12,6 +12,8 @@ W, H = 1080, 1920
 FPS = 30
 HERE = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.join(HERE, "..", "marketing-video", "build")  # fonts + logo cut by prepare.py
+if not os.path.exists(os.path.join(ASSETS, "logo", "logo.json")):  # plain clone: use the committed brand kit
+    ASSETS = os.path.join(HERE, "..", "brand")
 
 PURPLE = (0x6D, 0x28, 0xD9)
 LIME = (0xD4, 0xF5, 0x5A)
