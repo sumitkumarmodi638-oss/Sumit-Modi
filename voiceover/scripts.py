@@ -45,7 +45,7 @@ FILMS["scroll-stopper"] = dict(
     lines=[
         (0.15, 2.45, "Two seconds to stop a thumb."),       # finishes before the buzzer at 2.5
         (3.05, 4.45, "So does your business."),
-        (5.40, 7.95, "Post after post after post."),
+        (5.40, 7.40, "Post after post after post."),
         (7.45, 9.95, "All fighting for one thumb."),  # must clear the STOP thud at 10.0
         # 10.0 s: STOP. The thud carries it, no voice
         (10.95, 12.45, "That's what we build."),
