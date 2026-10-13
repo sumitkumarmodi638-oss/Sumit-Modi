@@ -48,7 +48,9 @@ VO_CHAIN = ",".join([
 
 
 def run(cmd):
-    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    r = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+    if r.returncode:
+        raise RuntimeError(f"{cmd[0]} failed: {r.stderr.strip()[-800:]}")
 
 
 def read_wav(path):
@@ -193,7 +195,7 @@ def mix_film(film, scratch=False):
         wavfile.write(wav, SR, (mix / (np.max(np.abs(mix)) + 1e-9) * 0.9).astype(np.float32))
         pic = os.path.join(proj, cfg["video"])  # the finished film; its video is copied bit-for-bit
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", pic, "-i", wav, "-map", "0:v", "-map", "1:a", "-c:v", "copy",
-             "-af", "alimiter=limit=0.7:attack=2:release=40:level=false,loudnorm=I=-14:TP=-2:LRA=9,aresample=48000",
+             "-af", "alimiter=limit=0.7:attack=2:release=40:level=false,loudnorm=I=-14:TP=-2:LRA=9,aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo",
              "-c:a", "aac", "-b:a", "256k", "-shortest", "-movflags", "+faststart",
              os.path.join(OUT, name + ".mp4")])
     with open(os.path.join(OUT, name + ".srt"), "w") as fh:
