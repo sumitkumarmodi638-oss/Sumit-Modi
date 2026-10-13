@@ -16,6 +16,7 @@ All 11 films are in the **Higgsfield media library**. They are voiced by **"Gia"
 | Finance (9:16) | 34 s | -14.5 LUFS / -1.8 dB | `a2d6ff82-bc03-4388-b762-03974786cc7d` |
 | Manufacturing (9:16) | 34 s | -14.4 LUFS / -1.9 dB | `0d158ca5-70b1-4528-b841-4b8c6a7433bc` |
 | Captions (.srt for all 11, zip) | | | `0e9df2e4-596c-4a43-8770-95c12356fbf3` |
+| **Everything in one zip** (11 films + captions + this file, 113 MB) | | | `8c4892d1-abaa-4734-9138-9756d89418a2` |
 
 ## What changed from v2
 
