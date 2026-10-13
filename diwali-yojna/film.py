@@ -83,6 +83,8 @@ yy, xx = np.mgrid[0:H, 0:W]
 VIG = (1 - 0.35 * (((xx - W / 2) / (W / 1.6)) ** 2 + ((yy - H / 2) / (H / 1.6)) ** 2)).clip(0.55, 1)[..., None]
 SCAN = np.where(yy % 4 == 0, 0.92, 1.0)[..., None]
 TV = (VIG * SCAN).astype(np.float32)
+# a few fixed grain plates cycled at 12 fps: reads as film grain but stays compressible
+GRAIN = [rng.normal(0, 3, (H, W, 1)).astype(np.float32) for _ in range(4)]
 
 
 def paper():
@@ -186,13 +188,13 @@ for main, sub in ITEMS:
     im = Image.new("RGBA", (W, 260), (0, 0, 0, 0))
     dd = ImageDraw.Draw(im)
     dd.rectangle([90, 40, 180, 130], outline=INK, width=6)
-    dd.text((215, 10), main, font=MUKTA_XB(80), fill=INK)
-    dd.text((215, 120), sub, font=MUKTA_B(56), fill=GREY)
+    dd.text((215, 14), main, font=MUKTA_XB(72), fill=INK)
+    dd.text((215, 122), sub, font=MUKTA_B(48), fill=GREY)
     dd.line([90, 230, 990, 230], fill=(190, 178, 150), width=2)
     ITEM_IMG.append(im)
 TICK = Image.new("RGBA", (130, 130), (0, 0, 0, 0))
 ImageDraw.Draw(TICK).line([(18, 70), (52, 108), (122, 10)], fill=GREEN + (255,), width=16, joint="curve")
-APPROVED = stamp("स्वीकृत", size=96)
+APPROVED = stamp("स्वीकृत", size=68, angle=-9)
 
 # end card
 END_BG = paper()
@@ -296,7 +298,7 @@ def check_frame(t):
         if t >= STAMPS[k]:
             paste_scaled(im, TICK, 135, ITEM_Y[k] + 80, 1)
             s = 1 + 1.3 * max(0.0, 1 - (t - STAMPS[k]) / 0.11)
-            paste_scaled(im, APPROVED, 800, ITEM_Y[k] + 135, s, min(1.0, (t - STAMPS[k]) / 0.05 + 0.4))
+            paste_scaled(im, APPROVED, 912, ITEM_Y[k] + 150, s, min(1.0, (t - STAMPS[k]) / 0.05 + 0.4))
     # card shake on each stamp
     dx = sum(12 * np.exp(-(t - ts) * 16) * np.sin((t - ts) * 70) for ts in STAMPS if t >= ts)
     if abs(dx) > 0.5:
@@ -345,7 +347,7 @@ def frame(t):
     im = overlays(im, t)
     a = np.array(im.convert("RGB")).astype(np.float32)
     if tv:
-        a = a * TV + rng.normal(0, 5, (H, W, 1)).astype(np.float32)
+        a = a * TV + GRAIN[int(t * 12) % 4]
     else:
         a = a * (0.75 + 0.25 * VIG)
     for ts in (T_SHOT3,):  # payoff flash
@@ -458,7 +460,7 @@ def main():
     entry = build_audio(wav)
     silent = os.path.join(A, "_pic.mp4")
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
-                            "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "medium", "-crf", "18",
+                            "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "medium", "-crf", "20",
                             "-pix_fmt", "yuv420p", silent], stdin=subprocess.PIPE)
     for i in range(int(DUR * FPS)):
         enc.stdin.write(frame(i / FPS).tobytes())
