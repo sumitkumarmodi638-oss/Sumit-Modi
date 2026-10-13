@@ -34,8 +34,6 @@ SR = 48000
 TAKES = os.path.join(HERE, "takes")
 OUT = os.path.join(ROOT, "final")
 MAX_SPEEDUP = 1.12
-PICTURE = {"marketing-video": "build/picture.mp4", "scroll-stopper": "build/picture.mp4"}
-CRF = {"marketing-video": ("24", "grain"), "scroll-stopper": ("22", "animation"), "industry-series": ("22", "animation")}
 NAMES = {"brand-film": "varnik-labs-brand-film", "scroll-stopper": "varnik-labs-scroll-stopper"}
 
 VO_CHAIN = ",".join([
@@ -134,12 +132,27 @@ def srt_time(t):
     return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
 
 
+STEM_GAIN = 0.25  # export_stems.py wrote the FLAC stems at this gain
+
+
+def load_stem(film, kind, n):
+    """Prefer the committed FLAC stem (works from a plain git clone), else the build WAV."""
+    flac = os.path.join(HERE, "stems", f"{film}_{kind}.flac")
+    if os.path.exists(flac):
+        with tempfile.TemporaryDirectory() as tmp:
+            x = ffmpeg_audio(flac, f"volume={1 / STEM_GAIN}", os.path.join(tmp, "s.wav"))
+    else:
+        cfg = FILMS[film]
+        x = read_wav(os.path.join(ROOT, cfg["project"], "build", f"{cfg['stem']}_{kind}.wav"))
+    x = x[:n]
+    return np.pad(x, ((0, n - len(x)), (0, 0)))
+
+
 def mix_film(film, scratch=False):
     cfg = FILMS[film]
     proj = os.path.join(ROOT, cfg["project"])
     n = int(cfg["duration"] * SR)
-    music = read_wav(os.path.join(proj, "build", cfg["stem"] + "_music.wav"))[:n]
-    sfx = read_wav(os.path.join(proj, "build", cfg["stem"] + "_sfx.wav"))[:n]
+    music, sfx = load_stem(film, "music", n), load_stem(film, "sfx", n)
     vo = np.zeros(n, np.float32)
     report, subs = [], []
     with tempfile.TemporaryDirectory() as tmp:
@@ -178,10 +191,8 @@ def mix_film(film, scratch=False):
     with tempfile.TemporaryDirectory() as tmp:
         wav = os.path.join(tmp, "mix.wav")
         wavfile.write(wav, SR, (mix / (np.max(np.abs(mix)) + 1e-9) * 0.9).astype(np.float32))
-        pic = os.path.join(proj, PICTURE.get(cfg["project"], f"build/{film}.mp4"))
-        crf, tune = CRF[cfg["project"]]
-        run(["ffmpeg", "-y", "-loglevel", "error", "-i", pic, "-i", wav, "-map", "0:v", "-map", "1:a",
-             "-c:v", "libx264", "-preset", "slow", "-crf", crf, "-tune", tune, "-pix_fmt", "yuv420p",
+        pic = os.path.join(proj, cfg["video"])  # the finished film; its video is copied bit-for-bit
+        run(["ffmpeg", "-y", "-loglevel", "error", "-i", pic, "-i", wav, "-map", "0:v", "-map", "1:a", "-c:v", "copy",
              "-af", "alimiter=limit=0.7:attack=2:release=40:level=false,loudnorm=I=-14:TP=-2:LRA=9,aresample=48000",
              "-c:a", "aac", "-b:a", "256k", "-shortest", "-movflags", "+faststart",
              os.path.join(OUT, name + ".mp4")])
