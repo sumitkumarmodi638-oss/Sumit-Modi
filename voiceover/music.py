@@ -10,8 +10,8 @@ For each film:
   2. sync     slide the track so its big lift lands exactly on the film's drop frame
               (the lift is measured, then snapped to the sharpest onset within +-150 ms)
   3. breathe  a 4 dB dip in the 300 ms before the drop, so the hit feels bigger
-  4. backtime the track's own ending onto the last frame: the body crossfades on a beat into
-              the track's natural ending, so the music resolves instead of fading out
+  4. backtime the track's own ending: its last full chord lands on the end-card hit and rings
+              out under the sign-off (the body crossfades into it on a beat)
   5. level    matched to the old synthesized score, so the balance with the SFX stem stays put
 """
 import os
@@ -35,7 +35,7 @@ TRACKS = {
     723: ("Other World", "Lily J", 143.6, 9.2, 91.2, 92.6),
 }
 
-# film: (track id, drop time in the film s)
+# film: (track id, drop time in the film s); ENDCARD = when the end card hits
 SCORE = {
     "brand-film": (546, 13.5),      # quiet build under the problem, full strings on the drop
     "scroll-stopper": (607, 12.5),  # pulses under the scroll, hard drop after STOP
@@ -49,6 +49,10 @@ SCORE = {
     "finance": (723, 11.0),
     "industry": (715, 11.0),        # big orchestral hit out of silence
 }
+
+
+ENDCARD = {"brand-film": 41.0, "scroll-stopper": 38.0}  # the industry Reels: 31.0
+FADE_OUT = 1.2
 
 
 def url(tid):
@@ -104,10 +108,11 @@ def score(film, n, ref=None, drop_override=None):
     out = np.zeros((n, 2), np.float32)
     beat = 60.0 / GRID_BPM
 
-    # backtimed ending: the track's decay ends just after the last frame
-    tail_len = float(np.clip(end - last_full + 2.0, 4.0, 10.0))
-    xf = round((dur - tail_len) / beat) * beat  # crossfade point, on the film's beat grid
-    tail_src = end + 0.3 - (dur - xf)           # where in the source the tail starts
+    # backtimed ending: the track's final full chord lands on the end-card hit and rings out
+    # under the sign-off; the body crossfades into it two beats earlier, on the film's grid
+    card = ENDCARD.get(film, 31.0)
+    xf = round((card - 2 * beat) / beat) * beat
+    tail_src = last_full - (card - xf)          # where in the source the tail starts
 
     # body: the track slid so its lift lands on the drop
     off = lift - drop
@@ -135,8 +140,8 @@ def score(film, n, ref=None, drop_override=None):
     # a breath before the drop
     dip = 1 - 0.37 * np.clip(1 - np.abs(t - (drop - 0.15)) / 0.15, 0, 1)
     out *= dip[:, None]
-    # soft out on the last 250 ms so nothing is cut mid-note
-    out *= np.clip((dur - t) / 0.25, 0, 1)[:, None]
+    # the ring-out fades over the last FADE_OUT s so nothing is cut mid-note
+    out *= np.clip((dur - t) / FADE_OUT, 0, 1)[:, None] ** 1.5
 
     if ref is not None:  # match the old score's post-drop loudness
         a, b = int(drop * SR), int(min(dur - 1, drop + 12) * SR)
