@@ -51,3 +51,14 @@ Rebuild anywhere that can reach Higgsfield storage:
 git clone -b claude/cool-allen-e9aonp https://github.com/sumitkumarmodi638-oss/sumit-modi.git
 cd sumit-modi/voiceover && python3 jobs.py download && python3 mix.py   # -> ../final/
 ```
+
+## Diwali Reel: "Pradhan Dukaan Digital Yojna 2026"
+
+A 37.5 s, 9:16 parody of a public-service ad, in Hindi with Hinglish captions. It is clearly labelled as parody, with no emblems or real scheme names. Higgsfield media ID: `6522ab14-50cb-4332-847b-546efb9487d8`. Loudness is -14.5 LUFS with peaks at -2.6 dB. Post it before 1 November (Diwali is 8 November).
+
+- **Picture:** the uncle character comes from one Nano Banana 2.1 reference, so his face stays the same across 4 scenes. Each scene is animated with Kling 3.0 pro. The graphics (title card, approval-stamp checklist and application-form end card) are built by `diwali-yojna/film.py`.
+- **Voice:** ElevenLabs "Gia", in Hindi.
+- **Music:** "Meditation Sitar" and "India", both by Arulo, from Mixkit under the Mixkit Stock Music Free License.
+- **Fonts:** Rozha One and Mukta, under the SIL Open Font License.
+- **Cost:** about 42 credits.
+- **To rebuild:** run `bash diwali-yojna/fetch.sh /tmp/dy && python3 diwali-yojna/film.py /tmp/dy out.mp4`.
