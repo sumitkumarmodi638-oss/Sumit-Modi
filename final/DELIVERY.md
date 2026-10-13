@@ -54,7 +54,7 @@ cd sumit-modi/voiceover && python3 jobs.py download && python3 mix.py   # -> ../
 
 ## Diwali Reel: "Pradhan Dukaan Digital Yojna 2026"
 
-A 37.5 s, 9:16 parody of a public-service ad, in Hindi with Hinglish captions. It is clearly labelled as parody, with no emblems or real scheme names. Higgsfield media ID: `6522ab14-50cb-4332-847b-546efb9487d8`. Loudness is -14.5 LUFS with peaks at -2.6 dB. Post it before 1 November (Diwali is 8 November).
+A 37.5 s, 9:16 parody of a public-service ad, in Hindi with Hinglish captions. It is clearly labelled as parody, with no emblems or real scheme names. **Branded version** (Varnik Labs purple and lime, logo opener, watermark and animated logo end card), Higgsfield media ID: `3399ea44-3d82-4488-93aa-aa4802e65dcf`. The first, unbranded cut is `6522ab14-50cb-4332-847b-546efb9487d8`. Loudness is -14.5 LUFS with peaks at -2.6 dB. Post it before 1 November (Diwali is 8 November).
 
 - **Picture:** the uncle character comes from one Nano Banana 2.1 reference, so his face stays the same across 4 scenes. Each scene is animated with Kling 3.0 pro. The graphics (title card, approval-stamp checklist and application-form end card) are built by `diwali-yojna/film.py`.
 - **Voice:** ElevenLabs "Gia", in Hindi.
