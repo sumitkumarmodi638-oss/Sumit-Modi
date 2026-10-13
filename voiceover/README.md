@@ -9,7 +9,9 @@ The finished films land in `../final/`.
 |---|---|
 | `SCRIPTS.md` | Every line of every film, with in/out timing. **Read and approve this first.** |
 | `scripts.py` | The same scripts as data, plus a lint: `python3 scripts.py` flags lines too long for their slot or overlapping the next |
-| `tts_requests.py` | Builds the Higgsfield text-to-speech requests (Sumit's cloned voice, `seed_audio`): 117 lines, about 50 credits |
+| `tts_requests.py` | Builds the text-to-speech requests: ElevenLabs "Gia" preset voice via Higgsfield `text2speech_v2`, 100 unique lines |
+| `jobs.py` / `jobs.json` | Tracks every generated take (job ID and result URL); `python3 jobs.py download` fetches them into `takes/` |
+| `music.py` | The music edit: picks each film's licensed cinematic track, conforms tempo, syncs the lift to the drop and backtimes the ending |
 | `takes/<film>/<NN>.wav` | The recorded/generated takes go here (NN = line number in `SCRIPTS.md`) |
 | `mix.py` | Places, cleans, fits and mixes the voice over music + SFX stems and encodes the final films |
 
@@ -26,11 +28,20 @@ The finished films land in `../final/`.
   have no voice.
 - **One sign-off everywhere:** "Varnik Labs. Design. Tech. Growth."
 
+## Music edit (`music.py`)
+
+1. Tempo-conform the track to the films' 120 BPM cut grid (Rubber Band, pitch kept, only within 8%).
+2. Slide it so its big lift lands on the drop frame. The measured lift is snapped to the sharpest onset within 150 ms. There's a 4 dB breath in the 300 ms before the hit.
+3. Backtime the ending: the track's last full chord lands on the end-card hit and rings out under the sign-off.
+4. Level-match to the old synthesized score, so the SFX stem keeps its balance.
+
+Credits and license: see `../final/DELIVERY.md`.
+
 ## Mix chain (`mix.py`)
 
 1. Voice: trim silence → high-pass 85 Hz → −2.5 dB at 200 Hz (mud) → +2.5 dB at 3.2 kHz
    (presence) → +1.5 dB at 10 kHz (air) → de-esser → 3:1 compressor → every line level-matched.
-2. If a take runs past its slot, Rubber Band time-stretch (pitch kept) up to 12% faster. Anything
+2. If a take runs past its slot, first tighten the pauses inside the line, then Rubber Band time-stretch (pitch kept) up to 12% faster. Anything
    still long is flagged `OVERRUN` in the report.
 3. Music ducks −10 dB under the voice with 80 ms look-ahead (it dips just before each word) and
    a 250 ms hold between words so it never pumps. SFX duck only −3 dB, so hits still land.
@@ -40,12 +51,11 @@ The finished films land in `../final/`.
 
 ## Finishing the voice
 
-1. Allow these hosts in the cloud environment's network settings (Network access → Allowed
-   domains): `upload.higgsfield.ai`, `cdn.higgsfield.ai`, `d2ol7oe51mr4n9.cloudfront.net`,
-   `d1xarpci4ikg0w.cloudfront.net`
-2. Generate the 117 lines with Sumit's cloned voice (batches from `python3 tts_requests.py`),
-   download each into `takes/<film>/<NN>.wav`
-3. `python3 mix.py`, which writes all 11 films to `../final/`
+All 100 takes are already generated (`jobs.json`). From a machine that can reach Higgsfield
+storage (`d8j0ntlcm91z4.cloudfront.net`) and `assets.mixkit.co`:
+
+1. `python3 jobs.py download` puts every take into `takes/<film>/<NN>.mp3`
+2. `python3 mix.py` writes all 11 films to `../final/`
 
 Or drop your own studio recordings into `takes/` with the same names. The mixer doesn't care
 where a take came from.
