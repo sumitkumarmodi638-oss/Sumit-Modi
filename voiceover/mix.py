@@ -34,6 +34,7 @@ SR = 48000
 TAKES = os.path.join(HERE, "takes")
 OUT = os.path.join(ROOT, "final")
 MAX_SPEEDUP = 1.12
+TARGET_BALANCE = 10.0  # dB of voice over the (ducked) music + SFX bed while talking
 NAMES = {"brand-film": "varnik-labs-brand-film", "scroll-stopper": "varnik-labs-scroll-stopper"}
 
 VO_CHAIN = ",".join([
@@ -231,15 +232,17 @@ def mix_film(film, scratch=False):
     talk = envelope(vo)
     duck_music = 10 ** (-10 * talk / 20)
     duck_sfx = 10 ** (-3 * talk / 20)
+    # Ride the dialogue: set the voice so it sits TARGET_BALANCE dB over the ducked bed while talking
+    on = talk > 0.5
+    bed_on = music[on].mean(1) * duck_music[on] + sfx[on].mean(1) * duck_sfx[on] if on.any() else np.zeros(1)
+    bed_db = 20 * np.log10(np.sqrt(np.mean(bed_on ** 2)) + 1e-9)
+    vo_db = 20 * np.log10(np.sqrt(np.mean(vo[on] ** 2)) + 1e-9) if on.any() else bed_db
+    vo = vo * 10 ** ((bed_db + TARGET_BALANCE - vo_db) / 20)
+    report.append(f"  balance: voice set {TARGET_BALANCE:+.0f} dB over the ducked bed while talking")
     room = fftconvolve(vo, room_ir())[:n] * 0.08
     voice = (vo + room)[:, None] * np.array([[1.0, 1.0]], np.float32)
-    mix = music * duck_music[:, None] + sfx * duck_sfx[:, None] + voice * 1.15
+    mix = music * duck_music[:, None] + sfx * duck_sfx[:, None] + voice
     mix = sosfilt(butter(2, 25, "high", fs=SR, output="sos"), mix, axis=0)
-    on = talk > 0.5
-    if on.any():
-        v = 20 * np.log10(np.sqrt(np.mean((vo[on] * 1.15) ** 2)) + 1e-9)
-        b = 20 * np.log10(np.sqrt(np.mean((music[on].mean(1) * duck_music[on] + sfx[on].mean(1) * duck_sfx[on]) ** 2)) + 1e-9)
-        report.append(f"  balance: voice sits {v - b:+.1f} dB over the bed while talking (target +8 to +14)")
 
     os.makedirs(OUT, exist_ok=True)
     name = NAMES.get(film, f"varnik-labs-{film}") + ("-SCRATCH" if scratch else "")
