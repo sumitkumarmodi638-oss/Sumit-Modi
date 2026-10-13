@@ -235,6 +235,11 @@ def mix_film(film, scratch=False):
     voice = (vo + room)[:, None] * np.array([[1.0, 1.0]], np.float32)
     mix = music * duck_music[:, None] + sfx * duck_sfx[:, None] + voice * 1.15
     mix = sosfilt(butter(2, 25, "high", fs=SR, output="sos"), mix, axis=0)
+    on = talk > 0.5
+    if on.any():
+        v = 20 * np.log10(np.sqrt(np.mean((vo[on] * 1.15) ** 2)) + 1e-9)
+        b = 20 * np.log10(np.sqrt(np.mean((music[on].mean(1) * duck_music[on] + sfx[on].mean(1) * duck_sfx[on]) ** 2)) + 1e-9)
+        report.append(f"  balance: voice sits {v - b:+.1f} dB over the bed while talking (target +8 to +14)")
 
     os.makedirs(OUT, exist_ok=True)
     name = NAMES.get(film, f"varnik-labs-{film}") + ("-SCRATCH" if scratch else "")
