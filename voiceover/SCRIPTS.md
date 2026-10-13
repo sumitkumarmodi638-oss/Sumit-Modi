@@ -30,7 +30,7 @@ Each line starts a few frames after its cut, so the picture lands first and the 
 | 00 | 0.15s | 2.45s | Two seconds to stop a thumb. |
 | 01 | 3.05s | 4.45s | So does your business. |
 | 02 | 5.40s | 7.95s | Post after post after post. |
-| 03 | 8.20s | 9.95s | All fighting for one thumb. |
+| 03 | 7.45s | 9.95s | All fighting for one thumb. |
 | 04 | 10.95s | 12.45s | That's what we build. |
 | 05 | 12.75s | 15.80s | A brand they remember. |
 | 06 | 16.20s | 19.30s | A website that makes the phone ring. |
