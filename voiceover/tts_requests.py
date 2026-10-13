@@ -16,6 +16,7 @@ MODEL = "seed_audio"
 SPEECH_RATE = 35       # the cloned voice reads slowly at 0; +35 gives a brisk, natural ad read
 SAMPLE_RATE = 48000    # match the mix (the default is 24 kHz)
 RATE_OVERRIDE = {}     # per-line speech_rate for a retake, e.g. {8: 55}
+SAY_AS = {"Every RFQ, tracked.": "Every R F Q, tracked."}  # pronunciation hints (captions keep the script text)
 
 
 def all_lines():
@@ -32,7 +33,7 @@ def all_requests():
         if text not in seen:
             seen.add(text)
             out.append({"index": index,
-                        "params": {"model": MODEL, "prompt": text, "voice_type": "element", "voice_id": VOICE_ID,
+                        "params": {"model": MODEL, "prompt": SAY_AS.get(text, text), "voice_type": "element", "voice_id": VOICE_ID,
                                    "speech_rate": RATE_OVERRIDE.get(index, SPEECH_RATE), "sample_rate": SAMPLE_RATE}})
     return out
 
