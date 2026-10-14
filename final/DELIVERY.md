@@ -62,3 +62,12 @@ A 37.5 s, 9:16 parody of a public-service ad, in Hindi with Hinglish captions. I
 - **Fonts:** Rozha One and Mukta, under the SIL Open Font License.
 - **Cost:** about 42 credits.
 - **To rebuild:** run `bash diwali-yojna/fetch.sh /tmp/dy && python3 diwali-yojna/film.py /tmp/dy out.mp4`.
+
+### Premium English cut: "The Diwali Shop Upgrade" (recommended)
+
+38.5 s, 9:16, English VO by Gia. Higgsfield media ID: `655badd8-d4fb-41e4-a189-eec4d164d26e`. Loudness is -14.0 LUFS with peaks at -2.0 dB. Built by `diwali-yojna/film_en.py`.
+
+It uses the same four shots, presented in the brand style:
+- Sora headlines, glass notification and checklist cards, and the real logo.
+- Music: Mixkit's "Meditation Sitar" for the first half, then "A New Life" by Eugenio Mininni, with its lift timed to the payoff cut.
+- The parody styling has been dropped.
