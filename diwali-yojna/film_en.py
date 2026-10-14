@@ -1,4 +1,4 @@
-"""'The Diwali Shop Upgrade': premium English cut of the Diwali Reel (9:16, 37.5 s).
+"""'The Diwali Shop Upgrade': premium English cut of the Diwali Reel (9:16, ~38 s).
 
 Same four AI shots of the shopkeeper as film.py, re-told in English in the Varnik Labs
 brand: Royal Purple / Electric Lime, Sora + DM Sans, glass cards, the real logo, a cinematic
@@ -23,7 +23,6 @@ import lib as L  # noqa: E402
 from mix import VO_CHAIN, dialogue_edit, envelope, ffmpeg_audio, rms_db, room_ir  # noqa: E402
 
 W, H, FPS, SR = 1080, 1920, 30, 48000
-DUR = 37.5
 A = sys.argv[1] if len(sys.argv) > 1 else "/home/user/diwali"
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(A, "diwali-upgrade.mp4")
 BF = os.path.join(HERE, "..", "brand", "fonts")
@@ -31,9 +30,7 @@ BF = os.path.join(HERE, "..", "brand", "fonts")
 PURPLE, LIME, MIDNIGHT, LAVENDER = (0x6D, 0x28, 0xD9), (0xD4, 0xF5, 0x5A), (0x12, 0x0B, 0x26), (0xA7, 0x8B, 0xFA)
 DEEP, WHITE, RED = (52, 16, 128), (255, 255, 255), (235, 72, 72)
 
-T_SHOT1, T_SHOT2, T_CHECK, T_SHOT3, T_SHOT4, T_CTA, T_BRAND = 5.2, 7.9, 10.7, 21.0, 25.2, 29.6, 33.2
-SHOTS = [(T_SHOT1, T_SHOT2, "c1.mp4", 0.0), (T_SHOT2, T_CHECK, "c2.mp4", 0.8),
-         (T_SHOT3, T_SHOT4, "c3.mp4", 0.3), (T_SHOT4, T_CTA, "c4.mp4", 0.2)]
+T_SHOT1, T_SHOT2 = 5.2, 7.9
 
 
 def F(name, size):
@@ -51,16 +48,27 @@ def load_vo():
 
 VO = load_vo()
 D = [len(x) / SR for x in VO]
-S = {0: 0.75, 1: 5.4, 3: 10.95, 7: 21.4, 9: 29.95}
+# the cut points follow the read (an editor cuts picture to the VO, not the other way round);
+# each shot is capped by its 5 s clip
+S = {0: 0.75, 1: 5.4}
 S[2] = max(7.95, S[1] + D[1] + 0.2)
+T_CHECK = min(T_SHOT2 + 4.1, max(10.7, S[2] + D[2] + 0.15))
+S[3] = T_CHECK + 0.25
 S[4] = S[3] + D[3] + 0.4
 S[5] = S[4] + D[4] + 0.45
 S[6] = S[5] + D[5] + 0.45
-S[8] = max(25.45, S[7] + D[7] + 0.3)
-S[10] = max(33.5, S[9] + D[9] + 0.4)
 CHECKS = [S[k] + D[k] + 0.05 for k in (4, 5, 6)]
-assert CHECKS[-1] < T_SHOT3 - 0.2, CHECKS
-assert S[2] + D[2] < T_CHECK + 0.1 and S[8] + D[8] < T_CTA + 0.1 and S[9] + D[9] < T_BRAND + 0.1, S
+T_SHOT3 = max(21.0, CHECKS[-1] + 0.6)
+S[7] = T_SHOT3 + 0.4
+T_SHOT4 = min(T_SHOT3 + 4.6, max(T_SHOT3 + 4.0, S[7] + D[7] + 0.05))
+S[8] = T_SHOT4 + 0.25
+T_CTA = min(T_SHOT4 + 4.7, max(T_SHOT4 + 3.8, S[8] + D[8] + 0.3))
+S[9] = T_CTA + 0.35
+T_BRAND = max(S[9] + 2.7, S[9] + D[9] + 0.5)
+S[10] = T_BRAND + 0.3
+DUR = round(S[10] + D[10] + 0.9, 2)
+SHOTS = [(T_SHOT1, T_SHOT2, "c1.mp4", 0.0), (T_SHOT2, T_CHECK, "c2.mp4", 0.8),
+         (T_SHOT3, T_SHOT4, "c3.mp4", 0.3), (T_SHOT4, T_CTA, "c4.mp4", 0.2)]
 CAPTIONS = {1: "Every Diwali, the same story.", 2: "Customers are calling. Nobody's picking up.",
             7: "The result? 47 new orders. Before lunch.", 8: "Same shop. Same sweets. A very different Diwali."}
 
@@ -455,6 +463,7 @@ def main():
                     "-af", "alimiter=limit=0.7:attack=2:release=40:level=false,loudnorm=I=-14:TP=-2:LRA=9,aresample=48000,"
                     "aformat=sample_fmts=fltp:channel_layouts=stereo", "-c:a", "aac", "-b:a", "256k",
                     "-movflags", "+faststart", "-shortest", OUT], check=True)
+    print("cuts:", [round(x, 2) for x in (T_CHECK, T_SHOT3, T_SHOT4, T_CTA, T_BRAND, DUR)])
     print("lines:", {k: (round(S[k], 2), round(D[k], 2)) for k in sorted(S)})
     print("checks:", [round(c, 2) for c in CHECKS], "music lift:", round(lift, 2))
     print("wrote", OUT)
